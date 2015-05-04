@@ -1,0 +1,18 @@
+{
+  "name": "soundbeard",
+  "version": "1.0.0",
+  "description": "A simple REST based soundboard in nodeJS.",
+  "main": "index.js",
+  "dependencies": {
+    "fs": "^0.0.2",
+    "underscore": "^1.8.3",
+    "node-mplayer": "^0.0.3",
+    "restify": "^3.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Julius Ehrlich <julius@ehrlich-bros.de>",
+  "license": "MIT"
+}

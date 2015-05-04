@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Soundbeard</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+
+      <div class="page-header">
+        <h1>Soundbeard</h1>
+        <p class="lead">A simple REST based soundboard in nodeJS.</p>
+      </div>
+
+      <h3>List all available snippets</h3>
+      <p><span class="label label-primary">GET</span> /list</p>
+      <p>
+          Sample response:<br>
+          <code>['foo.mp3', 'bar.wav']</code>
+      </p>
+
+      <h3>Play a single snippet</h3>
+      <p><span class="label label-primary">GET</span> /play/:snippet <small>(:snippet equals the filename i.e. foo.mp3)</small></p>
+      
+      <h3>Stop playback</h3>
+      <p><span class="label label-primary">GET</span> /stop</p>
+
+
+    </div> <!-- /container -->
+
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
