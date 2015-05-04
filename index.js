@@ -31,7 +31,7 @@ function stop(req, res) {
 }
 
 function snippets(req, res) {
-    var files = fs.readdirSync(basePath);
+    var files = fs.readdirSync(config.get('sounds'));
     var filteredFiles = [];
 
     _.each(files, function(file) {
