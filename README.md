@@ -22,7 +22,7 @@ If you like to change the IP adress or the port the server binds himself to, tak
 To change the location fo the sound files, just change the path in the *sounds* property in the **config/default.json** file.
 
 ###List all available snippets
-** *[GET]*  /list**
+[GET]**  **/list**
 
 Sample Response:
 ```javascript
@@ -30,7 +30,7 @@ Sample Response:
 ```
 
 ###Play a snippet
-** *[GET]*  /play/:snippet** *(:snippet equals the filename i.e. /play/foo.mp3)*
+[GET] **/play/:snippet** *(:snippet equals the filename i.e. /play/foo.mp3)*
 
 Sample Response:
 ```javascript
@@ -38,7 +38,7 @@ Sample Response:
 ```
 
 ###Stop playback
-** *[GET]* /stop**
+[GET] **/stop**
 
 ### License
 
