@@ -1,7 +1,14 @@
 {
   "name": "soundbeard",
+  "homepage": "https://github.com/jlis/soundbeard",
   "version": "1.0.0",
   "description": "A simple REST based soundboard in nodeJS.",
+  "author": "Julius Ehrlich <julius@ehrlich-bros.de>",
+  "license": "MIT",
+  "repository": {
+      "type": "git",
+      "url": "git://github.com/jlis/soundbeard.git"
+    },
   "main": "index.js",
   "dependencies": {
     "fs": "^0.0.2",
@@ -12,7 +19,5 @@
   "devDependencies": {},
   "scripts": {
     "start": "node index.js"
-  },
-  "author": "Julius Ehrlich <julius@ehrlich-bros.de>",
-  "license": "MIT"
+  }
 }
