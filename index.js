@@ -33,6 +33,7 @@ function stop(req, res) {
 function snippets(req, res) {
     var files = fs.readdirSync(config.get('sounds'));
     var filteredFiles = [];
+    var list = {};
 
     _.each(files, function(file) {
         if (file != '.' && file != '..' && isSoundFile(file)) {
@@ -40,7 +41,16 @@ function snippets(req, res) {
         }
     });
 
-    res.send(filteredFiles.sort());
+    filteredFiles.sort();
+    _.each(filteredFiles, function(file) {
+        list[file] = buildSoundHref(file);
+    });
+
+    res.send(list);
+}
+
+function buildSoundHref(file) {
+    return 'http://'+config.get('ip')+':'+config.get('port')+'/play/'+file;
 }
 
 function isSoundFile(file) {
@@ -55,9 +65,14 @@ var server = restify.createServer({
 server.get('/play/:snippet', play);
 server.get('/stop', stop);
 server.get('/list', snippets);
-server.get('/', restify.serveStatic({
+server.get('/help', restify.serveStatic({
     directory: './',
     default: 'doc.html'
+}));
+
+server.get('/', restify.serveStatic({
+    directory: './',
+    default: 'board.html'
 }));
 
 server.listen(config.get('port'), config.get('ip'), function() {

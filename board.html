@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <title>Soundbeard</title>
+      
+      <!--
+
+      ░░░░░░░░░▄░░░░░░░░░░░░░░▄░░░░
+      ░░░░░░░░▌▒█░░░░░░░░░░░▄▀▒▌░░░
+      ░░░░░░░░▌▒▒█░░░░░░░░▄▀▒▒▒▐░░░
+      ░░░░░░░▐▄▀▒▒▀▀▀▀▄▄▄▀▒▒▒▒▒▐░░░
+      ░░░░░▄▄▀▒░▒▒▒▒▒▒▒▒▒█▒▒▄█▒▐░░░
+      ░░░▄▀▒▒▒░░░▒▒▒░░░▒▒▒▀██▀▒▌░░░ 
+      ░░▐▒▒▒▄▄▒▒▒▒░░░▒▒▒▒▒▒▒▀▄▒▒▌░░
+      ░░▌░░▌█▀▒▒▒▒▒▄▀█▄▒▒▒▒▒▒▒█▒▐░░
+      ░▐░░░▒▒▒▒▒▒▒▒▌██▀▒▒░░░▒▒▒▀▄▌░
+      ░▌░▒▄██▄▒▒▒▒▒▒▒▒▒░░░░░░▒▒▒▒▌░
+      ▀▒▀▐▄█▄█▌▄░▀▒▒░░░░░░░░░░▒▒▒▐░
+      ▐▒▒▐▀▐▀▒░▄▄▒▄▒▒▒▒▒▒░▒░▒░▒▒▒▒▌
+      ▐▒▒▒▀▀▄▄▒▒▒▄▒▒▒▒▒▒▒▒░▒░▒░▒▒▐░
+      ░▌▒▒▒▒▒▒▀▀▀▒▒▒▒▒▒░▒░▒░▒░▒▒▒▌░
+      ░▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒░▒░▒░▒▒▄▒▒▐░░
+      ░░▀▄▒▒▒▒▒▒▒▒▒▒▒░▒░▒░▒▄▒▒▒▒▌░░
+      ░░░░▀▄▒▒▒▒▒▒▒▒▒▒▄▄▄▀▒▒▒▒▄▀░░░
+      ░░░░░░▀▄▄▄▄▄▄▀▀▀▒▒▒▒▒▄▄▀░░░░░
+      ░░░░░░░░░▒▒▒▒▒▒▒▒▒▒▀▀░░░░░░░░
+
+      -->
+
+      <!-- Bootstrap core CSS -->
+      <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+      <style type="text/css">
+      #snippets .btn {
+        padding: 12px;
+        margin: 0 5px 5px 0;
+      }
+      </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="page-header">
+          <h1>Soundbeard</h1>
+          <p class="lead">A simple REST based soundboard in nodeJS.</p>
+      </div>
+      <div id="snippets"></div>
+      <hr>
+      <a class="btn btn-danger btn-xs" id="stop">Stop playing sounds</a>
+    </div> <!-- /container -->
+    <script type="text/javascript">
+        var template = '<a class="btn btn-default" data-snippet-url="{{ url }}">{{ file }}</a>';
+    </script>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
+    <script src="http://cdn.rawgit.com/namuol/cheet.js/master/cheet.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $.getJSON('/list', function(data) {
+          $.each(data, function(file, url) {
+            var button = Mustache.render(template, {
+              file:file,
+              url:url
+            });
+
+            $('#snippets').append(button);
+            var f = file.split('.')[0];
+            var l = f.length;
+            var cheetcode = f[0]+(l>1?' '+f[1]:'')+(l>2?' '+f[2]:'');
+            cheet(cheetcode, function() {
+              $.get(url);
+            });
+          });
+
+          $(document).on('click', '#snippets a', function() {
+            $.get($(this).data('snippet-url'));
+          });
+
+          $('#stop').on('click', function() {
+            $.get('/stop');
+          })
+        });
+      });
+    </script>
+  </body>
+</html>

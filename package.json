@@ -14,7 +14,8 @@
     "fs": "^0.0.2",
     "underscore": "^1.8.3",
     "node-mplayer": "^0.0.3",
-    "restify": "^3.0.2"
+    "restify": "^3.0.2",
+    "config": "^1.13.0"
   },
   "devDependencies": {},
   "scripts": {
