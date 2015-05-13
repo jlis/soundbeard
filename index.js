@@ -65,14 +65,9 @@ var server = restify.createServer({
 server.get('/play/:snippet', play);
 server.get('/stop', stop);
 server.get('/list', snippets);
-server.get('/help', restify.serveStatic({
-    directory: './',
-    default: 'doc.html'
-}));
-
-server.get('/', restify.serveStatic({
-    directory: './',
-    default: 'board.html'
+server.get(/\/?.*/, restify.serveStatic({
+    directory: './sites/',
+    default: 'index.html'
 }));
 
 server.listen(config.get('port'), config.get('ip'), function() {

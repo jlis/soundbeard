@@ -55,8 +55,12 @@ Sample Response:
 [GET] **/stop**
 
 ### Help
-[GET]  **/help**
+[GET]  **/help.html**
 
 ### License
 
 MIT
+
+### Thanks
+
+The bearded cat icon is made with love by [Denis Sazhin](http://iconka.com/)
