@@ -29,15 +29,21 @@ If you like to change the IP adress or the port the server binds himself to, tak
 
 To change the location fo the sound files, just change the path in the *sounds* property in the **config/default.json** file.
 
-###List all available snippets
+### The board itself
+[GET]  **/**
+
+### List all available snippets
 [GET]  **/list**
 
 Sample Response:
 ```javascript
-['foo.mp3', 'bar.wav']
+{
+    "foo.mp3": "http://127.0.0.1:8080/play/foo.mp3",
+    "bar.wav": "http://127.0.0.1:8080/play/bar.wav"
+}
 ```
 
-###Play a snippet
+### Play a snippet
 [GET] **/play/:snippet** *(:snippet equals the filename i.e. /play/foo.mp3)*
 
 Sample Response:
@@ -45,8 +51,11 @@ Sample Response:
 {"playing":"foo.mp3"}
 ```
 
-###Stop playback
+### Stop playback
 [GET] **/stop**
+
+### Help
+[GET]  **/help**
 
 ### License
 

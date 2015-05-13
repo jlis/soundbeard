@@ -26,7 +26,12 @@
       <p><span class="label label-primary">GET</span> /list</p>
       <p>
           Sample response:<br>
-          <code>['foo.mp3', 'bar.wav']</code>
+          <code>
+          {
+            "foo.mp3": "http://127.0.0.1:8080/play/foo.mp3",
+            "bar.wav": "http://127.0.0.1:8080/play/bar.wav"
+          }
+          </code>
       </p>
 
       <h3>Play a single snippet</h3>
