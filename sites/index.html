@@ -73,9 +73,11 @@
             if (split.length > 1) {
               label = split[0];
               file = split.pop();
-              if (!labelButtons.hasOwnProperty('label')) {
+
+              if (undefined === labelButtons[label]) {
                 labelButtons[label] = [];
               }
+              
               labelButtons[label].push({
                 file: file,
                 url: url,
@@ -86,6 +88,8 @@
               addSnippet(file, url, label);
             }
           });
+
+          console.log(labelButtons);
 
           $.each(labelButtons, function(label, snippets) {
             addLabel(label);
