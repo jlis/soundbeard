@@ -1,4 +1,5 @@
 ![soundbeard logo](https://raw.githubusercontent.com/jlis/soundbeard/master/logo.png)
+
 Soundbeard - A simple REST based soundboard in nodeJS.
 
 ----
