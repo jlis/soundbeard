@@ -20,14 +20,15 @@ Due to the usage of *node-mplayer* you have to install the **MPlayer CLI**. For 
 
 
 ### Get started
-Start the server by running:
+Create a **config/default.json** config file from the sample config and adjust the properties as you like.
+For example the *host* and *port* properties hold the information which ip and port the server binds himself to. The *sounds* property is the location for the sound files.
+
+After doing that, simply start the server by running:
 
 ```sh
 $ npm start
 ```
-If you like to change the IP adress or the port the server binds himself to, take a look at the *host* and *port* properties in the  **config/default.json** file.
 
-To change the location fo the sound files, just change the path in the *sounds* property in the **config/default.json** file.
 
 ### The board itself
 [GET]  **/**

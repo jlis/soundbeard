@@ -36,7 +36,7 @@
       <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
       <style type="text/css">
       #snippets .btn {
-        padding: 12px;
+        padding: 8px;
         margin: 0 5px 5px 0;
       }
       </style>
@@ -57,6 +57,7 @@
     </div> <!-- /container -->
     <script type="text/javascript">
         var template = '<a class="btn btn-default" data-snippet-url="{{ url }}">{{ file }}</a>';
+        var labelTemplate = '<h4><span class="label label-default">{{ label }}</span></h4><hr><div data-id="{{ label }}"></div>';
     </script>
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
@@ -64,20 +65,54 @@
     <script type="text/javascript">
       $(document).ready(function() {
         $.getJSON('/list', function(data) {
+          var labelButtons = {};
+          addLabel('unlabelled');
           $.each(data, function(file, url) {
+            var split = file.split('/');
+            var label = false;
+            if (split.length > 1) {
+              label = split[0];
+              file = split.pop();
+              if (!labelButtons.hasOwnProperty('label')) {
+                labelButtons[label] = [];
+              }
+              labelButtons[label].push({
+                file: file,
+                url: url,
+                label: label
+              });
+            }
+            else {
+              addSnippet(file, url, label);
+            }
+          });
+
+          $.each(labelButtons, function(label, snippets) {
+            addLabel(label);
+            $.each(snippets, function(key, snippet) {
+              addSnippet(snippet.file, snippet.url, label);
+            });
+          });
+
+          function addSnippet(file, url, label) {
             var button = Mustache.render(template, {
-              file:file,
-              url:url
+              file: file,
+              url: url
             });
 
-            $('#snippets').append(button);
+            var container = label ? $('div[data-id="'+label+'"]') : $('#snippets');
+            container.append(button);
             var f = file.split('.')[0];
             var l = f.length;
             var cheetcode = f[0]+(l>1?' '+f[1]:'')+(l>2?' '+f[2]:'');
             cheet(cheetcode, function() {
               $.get(url);
             });
-          });
+          }
+
+          function addLabel(label) {
+            $('#snippets').append(Mustache.render(labelTemplate, {label: label}));
+          }
 
           $(document).on('click', '#snippets a', function() {
             $.get($(this).data('snippet-url'));
