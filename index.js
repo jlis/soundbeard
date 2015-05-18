@@ -8,7 +8,6 @@ var player = new mplayer();
 
 function play(req, res, next) {
     var path = config.get('sounds') + (_.has(req.params, 'folder') ? req.params.folder+'/' : '') + req.params.snippet;
-    console.log(req.params, path);
     fs.exists(path, function(exists) {
         if (exists) {
             player.stop();
