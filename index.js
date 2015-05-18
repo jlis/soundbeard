@@ -84,10 +84,10 @@ server.get('/play/:folder/:snippet', play);
 server.get('/play/:snippet', play);
 server.get('/stop', stop);
 server.get('/list', snippets);
-server.get(/\/?.*/, restify.serveStatic({
-    directory: './sites/',
+server.get(/.*/, restify.serveStatic({
+    directory: 'sites',
     default: 'index.html'
-}));
+ }));
 server.listen(config.get('port'), config.get('ip'), function() {
     console.log('%s listening at %s', server.name, server.url);
 });
