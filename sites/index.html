@@ -50,7 +50,7 @@
       </div>
       <div id="snippets"></div>
       <hr>
-      <a class="pull-left btn btn-danger btn-xs" id="stop">Stop playing sounds</a>
+      <a class="pull-left btn btn-danger btn-xs" id="stop"><i class="glyphicon glyphicon-stop"></i>&nbsp;Stop playback</a>
       <span class="pull-right">
         <a href="/help.html" class="text-muted">Help</a> | <a href="http://iconka.com/" class="text-muted" target="_blank">Logo by Denis Sazhin</a>
       </span>
@@ -77,7 +77,7 @@
               if (undefined === labelButtons[label]) {
                 labelButtons[label] = [];
               }
-              
+
               labelButtons[label].push({
                 file: file,
                 url: url,
@@ -88,8 +88,6 @@
               addSnippet(file, url, label);
             }
           });
-
-          console.log(labelButtons);
 
           $.each(labelButtons, function(label, snippets) {
             addLabel(label);
@@ -119,7 +117,13 @@
           }
 
           $(document).on('click', '#snippets a', function() {
-            $.get($(this).data('snippet-url'));
+            var btn = $(this);
+            var snippet = $(this).text();
+            btn.html('<i class="glyphicon glyphicon-play"></i>&nbsp;'+snippet).removeClass('btn-default').addClass('btn-success');
+            $.get(btn.data('snippet-url'));
+            setTimeout(function() {
+              btn.text(snippet).removeClass('btn-success').addClass('btn-default');
+            }, 2000);
           });
 
           $('#stop').on('click', function() {

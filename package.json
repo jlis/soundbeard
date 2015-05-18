@@ -6,17 +6,18 @@
   "author": "Julius Ehrlich <julius@ehrlich-bros.de>",
   "license": "MIT",
   "repository": {
-      "type": "git",
-      "url": "git://github.com/jlis/soundbeard.git"
-    },
+    "type": "git",
+    "url": "git://github.com/jlis/soundbeard.git"
+  },
   "main": "index.js",
   "dependencies": {
+    "change-case": "^2.3.0",
+    "config": "^1.13.0",
     "fs": "^0.0.2",
-    "underscore": "^1.8.3",
+    "node-dir": "^0.1.8",
     "node-mplayer": "^0.0.3",
     "restify": "^3.0.2",
-    "config": "^1.13.0",
-    "node-dir": "^0.1.8"
+    "underscore": "^1.8.3"
   },
   "devDependencies": {},
   "scripts": {
