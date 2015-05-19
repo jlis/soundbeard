@@ -13,6 +13,7 @@ var soundbeard = {
     server: null,
     init: function() {
         this.player = new mplayer();
+        this.player.setVolume(100);
         var that = this;
         this.server = restify.createServer({
             name: that.name
