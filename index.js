@@ -5,7 +5,7 @@ var mplayer = require('node-mplayer'),
     _ = require('underscore'),
     config = require('config'),
     dir = require('node-dir'),
-    changeCase = require('change-case')
+    changeCase = require('change-case'),
     say = require('say');
 // the soundbeard object
 var soundbeard = {
