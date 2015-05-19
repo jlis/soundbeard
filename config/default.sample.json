@@ -2,5 +2,6 @@
     "ip": "127.0.0.1",
     "port": 8080,
     "sounds": "./sounds/",
-    "allowedFormats": ["wav", "mp3"]
+    "allowedFormats": ["wav", "mp3"],
+    "tts_lang": "de"
 }

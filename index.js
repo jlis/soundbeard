@@ -6,13 +6,14 @@ var mplayer = require('node-mplayer'),
     config = require('config'),
     dir = require('node-dir'),
     changeCase = require('change-case'),
-    say = require('say');
+    httpreq = require('httpreq');
 // the soundbeard object
 var soundbeard = {
     name: 'soundbeard v1',
     player: null,
     server: null,
     init: function() {
+        this.checkConfig();
         this.player = new mplayer();
         this.player.setVolume(100);
         var that = this;
@@ -23,13 +24,21 @@ var soundbeard = {
         this.bindRoutes();
         this.launchServer();
     },
+    checkConfig: function() {
+        var keys = ['ip', 'port', 'sounds', 'allowedFormats'];
+        _.each(keys, function(key) {
+            if (!config.has(key)) {
+                console.log('WARNING: Config property "'+key+'" does not exists. Exiting...');
+                process.exit(1);
+            }
+        });
+    },
     bindRoutes: function() {
         var that = this;
         this.server.get('/play/:folder/:snippet', that.play);
         this.server.get('/play/:snippet', that.play);
         this.server.get('/stop', that.stop);
         this.server.post('/say', that.say);
-        this.server.post('/whisper', that.whisper);
         this.server.get('/list', that.snippets);
         this.server.get(/.*/, restify.serveStatic({
             directory: 'sites',
@@ -65,30 +74,25 @@ var soundbeard = {
         res.send();
     },
     say: function(req, res) {
-        soundbeard.speech(req, res, 'Vicki');
+        soundbeard.speech(req, res);
     },
-    whisper: function(req, res) {
-        soundbeard.speech(req, res, 'Whisper');
-    },
-    speech: function(req, res, voice) {
+    speech: function(req, res) {
         if (undefined == req.params.text) {
             res.status(400);
             res.send({
                 error: 'no text is given'
             });
         }
-
-        say.speak(voice, req.params.text);
-        res.send({
-            speaking: req.params.text
+        soundbeard.speakToGoogle(req.params.text, function() {
+                res.send({
+                speaking: req.params.text
+            });
         });
     },
     snippets: function(req, res) {
         var path = config.get('sounds');
-
         dir.paths(path, function(err, paths) {
             if (err) throw err;
-
             var filteredFiles = [];
             var list = {};
             var files = fs.readdirSync(path);
@@ -110,7 +114,6 @@ var soundbeard = {
             _.each(filteredFiles, function(file) {
                 list[soundbeard.getReadableName(file)] = soundbeard.buildSoundHref(file);
             });
-
             res.send(list);
         });
     },
@@ -118,15 +121,13 @@ var soundbeard = {
         var pathSplit = file.split('/');
         var label = '';
         var fileName = file;
-
         if (pathSplit.length > 1) {
-            var label = pathSplit[0]+'/';
+            var label = pathSplit[0] + '/';
             var fileName = pathSplit[1];
         }
-
         ext = file.split('.').pop();
-        fileName = changeCase.titleCase(fileName.replace('.'+ext, ''));
-        return label+fileName
+        fileName = changeCase.titleCase(fileName.replace('.' + ext, ''));
+        return label + fileName
     },
     buildSoundHref: function(file) {
         return 'http://' + config.get('ip') + ':' + config.get('port') + '/play/' + file;
@@ -137,6 +138,31 @@ var soundbeard = {
         }
         var extension = file.split('.').pop();
         return (-1 !== _.indexOf(config.get('allowedFormats'), extension));
+    },
+    speakToGoogle: function(text, callback) {
+        var that = this;
+        var savePath = __dirname + '/'+this.getRandomString()+'.mp3';
+        var lang = config.has('tts_lang') ? config.get('tts_lang') : 'de';
+        var url = 'http://translate.google.com/translate_tts?tl='+lang+'&q='+encodeURIComponent(text);
+        httpreq.download(url, savePath, function(err, progress) {
+            if (err) return console.log(err);
+        }, function(err, res) {
+            if (err) return console.log(err);
+
+            that.player.setFile(savePath);
+            that.player.play();
+
+            setTimeout(function() {
+                fs.unlink(savePath);
+            }, 10000);
+
+            if (typeof(callback) == 'function') {
+                callback();
+            }
+        });
+    },
+    getRandomString: function() {
+        return 'snippet_'+Math.random().toString(36).substring(7);
     }
 };
 // startup

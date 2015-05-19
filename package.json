@@ -14,10 +14,10 @@
     "change-case": "^2.3.0",
     "config": "^1.13.0",
     "fs": "^0.0.2",
+    "httpreq": "^0.4.6",
     "node-dir": "^0.1.8",
     "node-mplayer": "^0.0.3",
     "restify": "^3.0.2",
-    "say": "^0.6.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {},
