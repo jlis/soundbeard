@@ -79,7 +79,9 @@ var soundbeard = {
         }
 
         say.speak(voice, req.params.text);
-        res.send();
+        res.send({
+            speaking: req.params.text
+        });
     },
     snippets: function(req, res) {
         var path = config.get('sounds');

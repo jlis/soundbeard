@@ -67,6 +67,19 @@
       <h3>Stop playback</h3>
       <p><span class="label label-primary">GET</span> /stop</p>
 
+      <h3>Text to speech</h3>
+      <p><span class="label label-primary">POST</span> /say/ <small>(also works with /whisper)</small></p>
+
+      <p>
+          Post data example:<br>
+          <code>text=hello</code>
+      </p>
+
+      <p>
+          Sample response:<br>
+          <code>{"speaking":"hello"}</code>
+      </p>
+
       <hr>
       <a class="pull-left btn btn-default btn-xs" href="/">Back</a>
       <span class="pull-right">

@@ -19,6 +19,8 @@ Due to the usage of *node-mplayer* you have to install the **MPlayer CLI**. For 
 * [Install on OSX via Homebrew](https://github.com/donmelton/MPlayerShell) 
 *  [Install on Raspberry PI](https://rasspberrypi.wordpress.com/2012/09/02/audio-and-video-playback-on-raspberry-pi/)
 
+To use **text to speech** you have to be on MacOSX or [install the Festival TTS engine](http://elinux.org/RPi_Text_to_Speech_%28Speech_Synthesis%29#Festival_Text_to_Speech)
+
 
 ### Get started
 Create a **config/default.json** config file from the sample config and adjust the properties as you like.
@@ -37,7 +39,7 @@ $ npm start
 ### List all available snippets
 [GET]  **/list**
 
-Sample Response:
+Sample response:
 ```javascript
 {
     "foo.mp3": "http://127.0.0.1:8080/play/foo.mp3",
@@ -48,13 +50,26 @@ Sample Response:
 ### Play a snippet
 [GET] **/play/:snippet** *(:snippet equals the filename i.e. /play/foo.mp3)*
 
-Sample Response:
+Sample response:
 ```javascript
 {"playing":"foo.mp3"}
 ```
 
 ### Stop playback
 [GET] **/stop**
+
+### Text to speech
+[POST] **/say/** (also works with */whisper*)
+
+Post data example:
+```
+text=hello
+```
+
+Sample response:
+```javascript
+{"speaking":"hello"}
+```
 
 ### Help
 [GET]  **/help.html**
