@@ -17,6 +17,7 @@
     "node-dir": "^0.1.8",
     "node-mplayer": "^0.0.3",
     "restify": "^3.0.2",
+    "say": "^0.6.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {},

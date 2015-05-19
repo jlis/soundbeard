@@ -5,7 +5,8 @@ var mplayer = require('node-mplayer'),
     _ = require('underscore'),
     config = require('config'),
     dir = require('node-dir'),
-    changeCase = require('change-case');
+    changeCase = require('change-case')
+    say = require('say');
 // the soundbeard object
 var soundbeard = {
     name: 'soundbeard v1',
@@ -18,6 +19,7 @@ var soundbeard = {
         this.server = restify.createServer({
             name: that.name
         });
+        this.server.use(restify.bodyParser());
         this.bindRoutes();
         this.launchServer();
     },
@@ -26,6 +28,8 @@ var soundbeard = {
         this.server.get('/play/:folder/:snippet', that.play);
         this.server.get('/play/:snippet', that.play);
         this.server.get('/stop', that.stop);
+        this.server.post('/say', that.say);
+        this.server.post('/whisper', that.whisper);
         this.server.get('/list', that.snippets);
         this.server.get(/.*/, restify.serveStatic({
             directory: 'sites',
@@ -58,6 +62,23 @@ var soundbeard = {
     },
     stop: function(req, res) {
         this.player.stop();
+        res.send();
+    },
+    say: function(req, res) {
+        soundbeard.speech(req, res, 'Vicki');
+    },
+    whisper: function(req, res) {
+        soundbeard.speech(req, res, 'Whisper');
+    },
+    speech: function(req, res, voice) {
+        if (undefined == req.params.text) {
+            res.status(400);
+            res.send({
+                error: 'no text is given'
+            });
+        }
+
+        say.speak(voice, req.params.text);
         res.send();
     },
     snippets: function(req, res) {
