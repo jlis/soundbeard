@@ -70,7 +70,7 @@ var soundbeard = {
         })
     },
     stop: function(req, res) {
-        this.player.stop();
+        soundbeard.player.stop();
         res.send();
     },
     say: function(req, res) {
