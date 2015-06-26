@@ -84,7 +84,7 @@ var soundbeard = {
             });
         }
         soundbeard.speakToGoogle(req.params.text, function() {
-                res.send({
+            res.send({
                 speaking: req.params.text
             });
         });
@@ -143,22 +143,26 @@ var soundbeard = {
         var that = this;
         var savePath = __dirname + '/'+this.getRandomString()+'.mp3';
         var lang = config.has('tts_lang') ? config.get('tts_lang') : 'de';
-        var url = 'http://translate.google.com/translate_tts?tl='+lang+'&q='+encodeURIComponent(text);
-        httpreq.download(url, savePath, function(err, progress) {
-            if (err) return console.log(err);
-        }, function(err, res) {
-            if (err) return console.log(err);
-
-            that.player.setFile(savePath);
-            that.player.play();
-
-            setTimeout(function() {
-                fs.unlink(savePath);
-            }, 10000);
-
-            if (typeof(callback) == 'function') {
-                callback();
+        var url = 'http://translate.google.com/translate_tts?tl='+lang+'&q='+text;
+        httpreq.get(url, {
+            binary: true,
+            headers: {
+                // this is a stupid fix for the picky Google TTS API
+                "User-Agent": "Chrome/43.0.2357.130 Safari/537.36"
             }
+        }, function(err, res) {
+            fs.writeFile(savePath, res.body, function(fileErr) {
+                console.log(savePath)
+                that.player.setFile(savePath);
+                that.player.play();
+                setTimeout(function() {
+                    fs.unlink(savePath);
+                }, 10000);
+
+                if (typeof(callback) == 'function') {
+                    callback();
+                }
+            });
         });
     },
     getRandomString: function() {
