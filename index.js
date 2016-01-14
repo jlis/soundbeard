@@ -12,6 +12,7 @@ var soundbeard = {
     name: 'soundbeard v1',
     player: null,
     server: null,
+    snippet_list: null,
     init: function() {
         this.checkConfig();
         this.player = new mplayer();
@@ -90,32 +91,37 @@ var soundbeard = {
         });
     },
     snippets: function(req, res) {
-        var path = config.get('sounds');
-        dir.paths(path, function(err, paths) {
-            if (err) throw err;
-            var filteredFiles = [];
-            var list = {};
-            var files = fs.readdirSync(path);
-            _.each(files, function(file) {
-                if (soundbeard.isSoundFile(file)) {
-                    filteredFiles.push(file);
-                }
-            });
-            _.each(paths.dirs, function(subdir) {
-                var subdirName = subdir.split('/').pop();
-                var files = fs.readdirSync(subdir);
+        if(soundbeard.snippet_list == null) {
+            var path = config.get('sounds');
+            dir.paths(path, function(err, paths) {
+                if (err) throw err;
+                var filteredFiles = [];
+                var list = {};
+                var files = fs.readdirSync(path);
                 _.each(files, function(file) {
                     if (soundbeard.isSoundFile(file)) {
-                        filteredFiles.push(subdirName + '/' + file);
+                        filteredFiles.push(file);
                     }
                 });
+                _.each(paths.dirs, function(subdir) {
+                    var subdirName = subdir.split('/').pop();
+                    var files = fs.readdirSync(subdir);
+                    _.each(files, function(file) {
+                        if (soundbeard.isSoundFile(file)) {
+                            filteredFiles.push(subdirName + '/' + file);
+                        }
+                    });
+                });
+                filteredFiles.sort();
+                _.each(filteredFiles, function(file) {
+                    list[soundbeard.getReadableName(file)] = soundbeard.buildSoundHref(file);
+                });
+                soundbeard.snippet_list = list;
+                res.send(list);
             });
-            filteredFiles.sort();
-            _.each(filteredFiles, function(file) {
-                list[soundbeard.getReadableName(file)] = soundbeard.buildSoundHref(file);
-            });
-            res.send(list);
-        });
+        } else {
+            res.send(soundbeard.snippet_list);
+        }
     },
     getReadableName: function(file) {
         var pathSplit = file.split('/');
