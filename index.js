@@ -1,5 +1,5 @@
 // dependencies
-var mplayer = require('node-mplayer'),
+var mplayer = require('mplayer'),
     restify = require('restify'),
     fs = require('fs'),
     _ = require('underscore'),
@@ -16,7 +16,7 @@ var soundbeard = {
     init: function() {
         this.checkConfig();
         this.player = new mplayer();
-        this.player.setVolume(100);
+        this.player.volume(100);
         var that = this;
         this.server = restify.createServer({
             name: that.name
@@ -57,7 +57,7 @@ var soundbeard = {
         fs.exists(path, function(exists) {
             if (exists) {
                 soundbeard.player.stop();
-                soundbeard.player.setFile(path);
+                soundbeard.player.openFile(path);
                 soundbeard.player.play();
                 res.send({
                     playing: req.params.snippet
@@ -159,7 +159,7 @@ var soundbeard = {
         }, function(err, res) {
             fs.writeFile(savePath, res.body, function(fileErr) {
                 console.log(savePath)
-                that.player.setFile(savePath);
+                that.player.openFile(savePath);
                 that.player.play();
                 setTimeout(function() {
                     fs.unlink(savePath);
