@@ -13,11 +13,11 @@ $ npm install
 ```
 
 ##### Requirements
-Due to the usage of *node-mplayer* you have to install the **MPlayer CLI**. For further information look here:
+Due to the usage of *mplayer* you have to install the **MPlayer CLI**. For further information look here:
 
-* [Install on Ubuntu](http://www.debianadmin.com/install-mplayer-ubuntu.html) 
-* [Install on OSX via Homebrew](https://github.com/donmelton/MPlayerShell) 
-*  [Install on Raspberry PI](https://rasspberrypi.wordpress.com/2012/09/02/audio-and-video-playback-on-raspberry-pi/)
+* [Install on Ubuntu](http://www.debianadmin.com/install-mplayer-ubuntu.html)
+* [Install on OSX via Homebrew](https://github.com/donmelton/MPlayerShell)
+* [Install on Raspberry PI](https://rasspberrypi.wordpress.com/2012/09/02/audio-and-video-playback-on-raspberry-pi/)
 
 ### Get started
 Create a **config/default.json** config file from the sample config and adjust the properties as you like.
