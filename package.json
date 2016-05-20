@@ -16,7 +16,7 @@
     "fs": "^0.0.2",
     "httpreq": "^0.4.6",
     "node-dir": "^0.1.8",
-    "node-mplayer": "^0.0.3",
+    "mplayer": "^2.1.0",
     "restify": "^3.0.2",
     "underscore": "^1.8.3"
   },
